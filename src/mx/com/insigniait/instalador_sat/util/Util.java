@@ -2,7 +2,9 @@ package mx.com.insigniait.instalador_sat.util;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.scene.control.ButtonBase;
 import javafx.scene.input.KeyCode;
@@ -51,6 +53,46 @@ public class Util {
 		}
 		
 		return str;
+	}
+	
+	public static String replaceUTF8HexChars(String cad) {
+		return cad.replace("\\C3\\9A", "Á")
+				    	.replace("\\C3\\89", "É")
+				    	.replace("\\C3\\8D", "Í")
+				    	.replace("\\C3\\93", "Ó")
+				    	.replace("\\C3\\9A", "Ú")
+				    	.replace("\\C3\\A1", "á")
+				    	.replace("\\C3\\A9", "é")
+				    	.replace("\\C3\\AD", "í")
+				    	.replace("\\C3\\B3", "ó")
+				    	.replace("\\C3\\BA", "ú");
+	}
+	
+	public static Map<String, String> createMapFromCommaSeparatedString(String list) {
+		
+    	Map<String, String>	mapa = new HashMap<String, String>();
+		
+		String[] partes = list.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+		
+		for (String parte : partes) {
+			Integer breakPoint = parte.indexOf(" = ");
+			
+			if(breakPoint != - 1) {
+				String identificador 	= 	parte.substring(0, breakPoint);
+				String valor 			= 	parte.substring(identificador.length() + 3, parte.length());
+				
+				identificador = identificador.trim();
+				valor = valor.trim();
+				
+				if(valor.startsWith("\"") && valor.endsWith("\"")) {
+					valor = valor.substring(1, valor.length() - 1);
+				}
+				
+				mapa.put(identificador, valor);
+			}
+		}
+		
+		return mapa;
 	}
 	
 	public static void setEnterAsClick(ButtonBase btn) {

@@ -18,8 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mx.com.insigniait.instalador_sat.dto.Pfx;
 import mx.com.insigniait.instalador_sat.util.OpenSsl;
-import mx.com.insigniait.instalador_sat.util.OpenSsl.CERTIFICATE_PROPERTY;
 import mx.com.insigniait.instalador_sat.util.Util;
 
 public class Main extends Application {
@@ -35,7 +35,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         
     	//Directorio inicial
-        File initialDir = new File(System.getProperty("user.home"), "documents\\Trabajo\\OpenKM\\Firma Digital Avanzada\\Instrumentos\\FIEL_MEGI720318266_20180216083404");
+        File initialDir = new File(System.getProperty("user.home"), "documents");
         
         if(!initialDir.exists()) {
         	initialDir = null;
@@ -182,31 +182,32 @@ public class Main extends Application {
         			
         			OpenSsl.installCertificate(pfxCert, pass);
         			
+        			Pfx pfxProps = OpenSsl.retrievePfxProperty(pfxCert, pass);
+        			
         			String mensaje = "";
         			
-        			mensaje += "===Datos del certificado==\n";
-        			mensaje += "Alias: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ALIAS) + "\n";
-        			mensaje += "Fecha inicial: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.STARTDATE) + "\n";
-        			mensaje += "Fecha final: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ENDDATE) + "\n";
-        			mensaje += "Huella digital: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.FINGERPRINT) + "\n";
-        			mensaje += "Propósito(s): " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.PURPOSE) + "\n\n";
-        			mensaje += "===Datos del emisor==\n";
-        			mensaje += "Nombre común: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_COMMON_NAME) + "\n";
-        			mensaje += "Domicilio: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_LOCALITY) + ", ";
-        			mensaje += "calle " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_STREET) + " ";
-        			mensaje += "CP " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_POSTAL_CODE) + ",";
-					mensaje += OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_STATE_OR_PROVICE) + ", ";
-					mensaje += OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_COUNTRY) + "\n";
-        			mensaje += "Correo electrónico: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_EMAIL) + "\n";
-        			mensaje += "Identificador: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_ID) + "\n";
-        			mensaje += "Organización: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_ORGANIZATION) + "\n";
-        			mensaje += "Unidad de organización: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_ORGANIZATION_UNIT) + "\n";
-        			mensaje += OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ISSUER_UNSTRUCTURED_NAME) + "\n\n";
-        			mensaje += "===Datos del sujeto==\n";
-        			mensaje += "Nombre: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.SUBJECT_NAME) + "\n";
-        			mensaje += "Correo electrónico: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.SUBJECT_EMAIL) + "\n";
-        			mensaje += "Organización: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.SUBJECT_ORGANIZATION) + "\n";
-        			mensaje += "Identificador: " + OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.SUBJECT_ID) + "\n";
+        			mensaje += "===Datos del certificado===\n";
+        			mensaje += "Alias: " + pfxProps.getAlias() + "\n";
+        			mensaje += "Fecha inicial: " + pfxProps.getStartDate() + "\n";
+        			mensaje += "Fecha final: " + pfxProps.getEndDate() + "\n";
+        			mensaje += "Huella digital: " + pfxProps.getFingerprint() + "\n";
+        			mensaje += "Propósito(s): " + pfxProps.getPurposes() + "\n\n";
+        			mensaje += "===Datos del emisor===\n";
+        			mensaje += "Nombre común: " + pfxProps.getIssuer().getCommonName() + "\n";
+        			mensaje += "Domicilio: " + pfxProps.getIssuer().getLocality() + ", ";
+        			mensaje += "calle " + pfxProps.getIssuer().getStreet() + " ";
+        			mensaje += "CP " + pfxProps.getIssuer().getPostalCode() + ",";
+					mensaje += pfxProps.getIssuer().getState() + ", " + pfxProps.getIssuer().getCountry() + "\n";
+        			mensaje += "Correo electrónico: " + pfxProps.getIssuer().getEmail() + "\n";
+        			mensaje += "Identificador: " + pfxProps.getIssuer().getId() + "\n";
+        			mensaje += "Organización: " + pfxProps.getIssuer().getOrganization() + "\n";
+        			mensaje += "Unidad de organización: " + pfxProps.getIssuer().getOrganizationUnit() + "\n";
+        			mensaje += pfxProps.getIssuer().getUnstructuredName() + "\n\n";
+        			mensaje += "===Datos del sujeto===\n";
+        			mensaje += "Nombre: " + pfxProps.getSubject().getName() + "\n";
+        			mensaje += "Correo electrónico: " + pfxProps.getSubject().getEmail() + "\n";
+        			mensaje += "Organización: " + pfxProps.getSubject().getOrganization() + "\n";
+        			mensaje += "Identificador: " + pfxProps.getSubject().getId() + "\n";
         			
 //        	        KeyStore ks = KeyStore.getInstance("Windows-MY");
 //        	        ks.load(null, null); 

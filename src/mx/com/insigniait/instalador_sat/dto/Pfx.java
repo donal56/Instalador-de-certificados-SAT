@@ -1,5 +1,10 @@
 package mx.com.insigniait.instalador_sat.dto;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Pfx {
@@ -10,9 +15,10 @@ public class Pfx {
 	private String email;
 	private String purposes;
 	private String publicKey;
+	private String fingerprint;
 	
 	private Date startDate;
-	private Date endData;
+	private Date endDate;
 	
 	private Issuer issuer;
 	private Subject subject;
@@ -34,7 +40,17 @@ public class Pfx {
 	}
 
 	public String getAlias() {
-		return alias;
+		if(alias.equals("<No Alias>")) {
+			if(this.getSubject() != null) {
+				return this.getSubject().getCommonName();
+			}
+			else {
+				return "";
+			}
+		}
+		else {
+			return alias;
+		}
 	}
 
 	public void setAlias(String alias) {
@@ -56,6 +72,26 @@ public class Pfx {
 	public void setPurposes(String purposes) {
 		this.purposes = purposes;
 	}
+	
+	public void setPurposesFromYesNoCommaSeparatedList(String purposes) {
+		BufferedReader bufReader = new BufferedReader(new StringReader(purposes));
+		
+		String 	line;
+		String 	aux = "";
+		
+		try {
+			while((line = bufReader.readLine()) != null) {
+				if(line.contains("Yes")) {
+					aux += line.substring(0, line.indexOf(":") - 1) + ", ";
+				}
+			}
+		} 
+		catch (IOException e) {	e.printStackTrace();	}
+		
+		aux = aux.substring(0, aux.length() - 2);
+		
+		this.purposes = aux;
+	}
 
 	public String getPublicKey() {
 		return publicKey;
@@ -72,13 +108,41 @@ public class Pfx {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
-	public Date getEndData() {
-		return endData;
+	
+	public void setStartDate(String startDate, String pattern) {
+		SimpleDateFormat sdf =  new SimpleDateFormat(pattern);
+		
+		try {
+			this.startDate = sdf.parse(startDate);
+		} catch (ParseException e) {
+			System.err.println(startDate);
+		}
 	}
 
-	public void setEndData(Date endData) {
-		this.endData = endData;
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
+	public void setEndDate(String endDate, String pattern) {
+		SimpleDateFormat sdf =  new SimpleDateFormat(pattern);
+		
+		try {
+			this.endDate = sdf.parse(endDate);
+		} catch (ParseException e) {
+			System.err.println(endDate);
+		}
+	}
+
+	public String getFingerprint() {
+		return fingerprint;
+	}
+
+	public void setFingerprint(String fingerprint) {
+		this.fingerprint = fingerprint;
 	}
 
 	public Issuer getIssuer() {
@@ -95,193 +159,5 @@ public class Pfx {
 
 	public void setSubject(Subject subject) {
 		this.subject = subject;
-	}
-	
-	public class Issuer {
-		
-		private String hash;
-		private String commonName;
-		private String organization;
-		private String organizationUnit;
-		private String email;
-		private String street;
-		private String postalCode;
-		private String country;
-		private String state;
-		private String locality;
-		private String id;
-		private String unstructuredName;
-		
-		public String getHash() {
-			return hash;
-		}
-		
-		public void setHash(String hash) {
-			this.hash = hash;
-		}
-		
-		public String getCommonName() {
-			return commonName;
-		}
-		
-		public void setCommonName(String commonName) {
-			this.commonName = commonName;
-		}
-		
-		public String getOrganization() {
-			return organization;
-		}
-		
-		public void setOrganization(String organization) {
-			this.organization = organization;
-		}
-		
-		public String getOrganizationUnit() {
-			return organizationUnit;
-		}
-		
-		public void setOrganizationUnit(String organizationUnit) {
-			this.organizationUnit = organizationUnit;
-		}
-		
-		public String getEmail() {
-			return email;
-		}
-		
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		public String getStreet() {
-			return street;
-		}
-		
-		public void setStreet(String street) {
-			this.street = street;
-		}
-
-		public String getPostalCode() {
-			return postalCode;
-		}
-
-		public void setPostalCode(String postalCode) {
-			this.postalCode = postalCode;
-		}
-		
-		public String getCountry() {
-			return country;
-		}
-		
-		public void setCountry(String country) {
-			this.country = country;
-		}
-		
-		public String getState() {
-			return state;
-		}
-		
-		public void setState(String state) {
-			this.state = state;
-		}
-		
-		public String getLocality() {
-			return locality;
-		}
-		
-		public void setLocality(String locality) {
-			this.locality = locality;
-		}
-		
-		public String getId() {
-			return id;
-		}
-		
-		public void setId(String id) {
-			this.id = id;
-		}
-		
-		public String getUnstructuredName() {
-			return unstructuredName;
-		}
-		
-		public void setUnstructuredName(String unstructuredName) {
-			this.unstructuredName = unstructuredName;
-		}
-	}
-	
-	public class Subject {
-
-		private String commonName;
-		private String name;
-		private String organization;
-		private String country;
-		private String email;
-		private String id;
-		private String serialNumber;
-    	private String hash;
-    	
-		public String getCommonName() {
-			return commonName;
-		}
-		
-		public void setCommonName(String commonName) {
-			this.commonName = commonName;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-		public String getOrganization() {
-			return organization;
-		}
-		
-		public void setOrganization(String organization) {
-			this.organization = organization;
-		}
-		
-		public String getCountry() {
-			return country;
-		}
-		
-		public void setCountry(String country) {
-			this.country = country;
-		}
-
-		public String getEmail() {
-			return email;
-		}
-		
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		public String getId() {
-			return id;
-		}
-		
-		public void setId(String id) {
-			this.id = id;
-		}
-		
-		public String getSerialNumber() {
-			return serialNumber;
-		}
-		
-		public void setSerialNumber(String serialNumber) {
-			this.serialNumber = serialNumber;
-		}
-		
-		public String getHash() {
-			return hash;
-		}
-		
-		public void setHash(String hash) {
-			this.hash = hash;
-		}
 	}
 }
