@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\donal\Downloads\Instalador de certificados SAT.jar</jar>
-  <outfile>C:\Users\donal\Downloads\Instalador de certificados SAT.exe</outfile>
+  <jar>C:\Users\donal\Documents\Eclipse EE\Instalador de certificados SAT\binaries\1.2\Instalador de certificados SAT.jar</jar>
+  <outfile>C:\Users\donal\Documents\Eclipse EE\Instalador de certificados SAT\binaries\1.2\Instalador de certificados SAT.exe</outfile>
   <errTitle>Error</errTitle>
   <cmdLine>-Djavax.net.ssl.trustStoreType=WINDOWS-ROOT</cmdLine>
   <chdir>.</chdir>
@@ -13,7 +13,11 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>true</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\donal\Downloads\icono.ico</icon>
+  <icon>C:\Users\donal\Documents\Eclipse EE\Instalador de certificados SAT\binaries\1.2\icono.ico</icon>
+  <singleInstance>
+    <mutexName>INSTL-CRT-SAT</mutexName>
+    <windowTitle>Instalador de certificados SAT</windowTitle>
+  </singleInstance>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>

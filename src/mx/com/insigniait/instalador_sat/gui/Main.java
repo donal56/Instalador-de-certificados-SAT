@@ -86,8 +86,8 @@ public class Main extends Application {
         
         //Icono de botón de formulario
         ImageView checkIcon = new ImageView(new Image("check.png"));
-        checkIcon.setFitHeight(27);
-        checkIcon.setFitWidth(27);
+        checkIcon.setFitHeight(22);
+        checkIcon.setFitWidth(22);
         
         //Botón de formulario
         Button btnInstalar = new Button("Instalar");
