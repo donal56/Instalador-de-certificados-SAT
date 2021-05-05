@@ -22,6 +22,7 @@ import mx.com.insigniait.instalador_sat.dto.Pfx;
 import mx.com.insigniait.instalador_sat.util.OpenSsl;
 import mx.com.insigniait.instalador_sat.util.Util;
 
+@SuppressWarnings("restriction")
 public class Main extends Application {
 
 	File certificate 	= 	null;
@@ -208,12 +209,6 @@ public class Main extends Application {
         			mensaje += "Correo electrónico: " + pfxProps.getSubject().getEmail() + "\n";
         			mensaje += "Organización: " + pfxProps.getSubject().getOrganization() + "\n";
         			mensaje += "Identificador: " + pfxProps.getSubject().getId() + "\n";
-        			
-//        	        KeyStore ks = KeyStore.getInstance("Windows-MY");
-//        	        ks.load(null, null); 
-//        	        
-//        	        ks.aliases();
-//        	        ks.getCertificate(OpenSsl.retrievePfxProperty(pfxCert, pass, CERTIFICATE_PROPERTY.ALIAS));
         			
         			//Borrar archivos temporales
         			pemCert.delete();

@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+@SuppressWarnings("restriction")
 public class Util {
 	
 	public static boolean isNotBlank(String cad) {
@@ -75,11 +76,11 @@ public class Util {
 		String[] partes = list.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 		
 		for (String parte : partes) {
-			Integer breakPoint = parte.indexOf(" = ");
+			Integer breakPoint = parte.indexOf("=");
 			
 			if(breakPoint != - 1) {
 				String identificador 	= 	parte.substring(0, breakPoint);
-				String valor 			= 	parte.substring(identificador.length() + 3, parte.length());
+				String valor 			= 	parte.substring(identificador.length() + 1, parte.length());
 				
 				identificador = identificador.trim();
 				valor = valor.trim();

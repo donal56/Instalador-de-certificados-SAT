@@ -1,2 +1,5 @@
-binaries
 bin
+target
+.classpath
+.project
+.settings
